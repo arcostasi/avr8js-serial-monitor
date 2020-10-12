@@ -1,0 +1,40 @@
+{
+    "projects": [
+        {
+            "name": "serial-blank",
+            "path": "./examples/serial-blank/",
+            "board": "uno"
+        },
+        {
+            "name": "serial-echo",
+            "path": "./examples/serial-echo/",
+            "board": "uno"
+        },
+        {
+            "name": "serial-print",
+            "path": "./examples/serial-print/",
+            "board": "uno"
+        },
+        {
+            "name": "serial-command",
+            "path": "./examples/serial-command/",
+            "board": "uno",
+            "files": [
+                "CommandHandler.cpp",
+                "CommandHandler.h"
+            ]
+        },
+        {
+            "name": "serial-art",
+            "path": "./examples/serial-art/",
+            "board": "uno"
+        }
+    ],
+    "settings": {
+        "debug": false,
+        "files.associations": {
+            "*.ino": "ino",
+            "*.hex": "hex"
+        }
+    }
+}
