@@ -5,6 +5,7 @@ import { AVRRunner } from "../shared/execute";
 import { formatTime } from "../shared/format-time";
 import { EditorHistoryUtil } from '../shared/editor-history.util';
 import { I2CBus } from "../shared/i2c-bus";
+import { SMDLEDElement } from './smd-led-element';
 
 import * as fs from "fs";
 
@@ -52,6 +53,8 @@ serialSend.addEventListener("click", serialTransmit);
 const serialScroll = document.querySelector<HTMLInputElement>('#serial-scroll');
 serialScroll.addEventListener("click", serialAutoScroll);
 
+const rxLED = document.getElementById('rx-led');
+
 // Set up toolbar
 let runner: AVRRunner;
 let board = 'uno';
@@ -67,6 +70,8 @@ function executeProgram(hex: string) {
   const cpuPerf = new CPUPerformance(runner.cpu, runner.frequency);
 
   const i2cBus = new I2CBus(runner.twi);
+
+  let animation = true;
 
   // Hook to PORTB register
   runner.portB.addListener((value) => {
@@ -85,10 +90,20 @@ function executeProgram(hex: string) {
 
   // Connect to Serial port
   runner.usart.onByteTransmit = (value: number) => {
+    rxLED.style.visibility = "visible";
     runnerOutputText.textContent += String.fromCharCode(value);
+
     // Checks auto scroll
     if (autoScroll) {
       runnerOutputText.scrollIntoView({ block: 'end', behavior: 'smooth' });
+    }
+
+    if (animation) {
+      animation = false;
+      setTimeout(() => {
+        rxLED.style.visibility = "hidden";
+        animation = true;
+      }, 50);
     }
   };
 

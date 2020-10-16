@@ -1,6 +1,6 @@
 # AVR8js Virtual Serial Monitor
 
-An AVR8 simulator with virtual serial monitor
+An AVR8 simulator with serial monitor
 
 [AVR8js](https://github.com/wokwi/avr8js) + [Electron](https://github.com/electron/electron) + [Monaco Editor](https://github.com/microsoft/monaco-editor)
 

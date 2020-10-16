@@ -17,6 +17,57 @@
           <button id="run-button" class="btn btn-dark"><i class="icon ci-play-outline"></i> Run</button>
           <button id="stop-button" class="btn btn-dark" disabled><i class="icon ci-pause-outline"></i> Stop</button>
           <div class="spacer"></div>
+
+          <div class="led-container">
+            <svg
+              width="50"
+              height="25"
+              version="1.2"
+              viewBox="0 0 60 25"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <defs>
+                <g id="led-body" fill="#999">
+                  <rect x="-8" y="0" height="5.2" width="9.6" fill="#333" filter="url(#solderPlate)" />
+                  <rect x="-8.6" y="-0.1" width="9.35" height="5.4" stroke="#aaa" stroke-width=".05" />
+                </g>
+                <filter id="ledFilter" x="-0.8" y="-0.8" height="5.2" width="9.8">
+                  <feGaussianBlur stdDeviation=".5" />
+                </filter>
+              </defs>
+            <g transform="translate(27.7 5)">
+              <use xlink:href="#led-body" />
+              <circle id="tx-led" cx="-3.6" cy="2.3" r="3.3" fill="#ffff80" filter="url(#ledFilter)" style="visibility:hidden" />
+            </g>
+            </svg>
+            <span class="led-label">TX</span>
+          </div>
+
+          <div class="led-container">
+            <svg
+              width="50"
+              height="25"
+              version="1.2"
+              viewBox="0 0 60 25"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <defs>
+                <g id="led-body" fill="#999">
+                  <rect x="-8" y="0" height="5.2" width="9.6" fill="#333" filter="url(#solderPlate)" />
+                  <rect x="-8.6" y="-0.1" width="9.35" height="5.4" stroke="#aaa" stroke-width=".05" />
+                </g>
+                <filter id="ledFilter" x="-0.8" y="-0.8" height="5.2" width="9.8">
+                  <feGaussianBlur stdDeviation=".5" />
+                </filter>
+              </defs>
+            <g transform="translate(27.7 5)">
+              <use xlink:href="#led-body" />
+              <circle id="rx-led" cx="-3.6" cy="2.3" r="3.3" fill="#80ff80" filter="url(#ledFilter)" style="visibility:hidden" />
+            </g>
+            </svg>
+            <span class="led-label">RX</span>
+          </div>
+
           <div class="status">
             <span id="status-label">Simulation time: </span>
             <i class="icon ci-stopwatch"></i> <span id="status-label-timer" class="color-white">00:00.000</span>
@@ -52,6 +103,7 @@
       require('./js/split-editor.js')
       require('./dist/app/app.js')
       require('./dist/app/preload.js')
+      // require('./dist/app/smd-led-element.js')
     </script>
     <!-- You can also require other files to run in this process -->
     <script src="./node_modules/monaco-editor/min/vs/loader.js"></script>

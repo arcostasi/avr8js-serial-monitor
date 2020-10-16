@@ -32,6 +32,8 @@ import { EEPROMLocalStorageBackend } from './eeprom';
 // ATmega328p params
 const FLASH = 0x8000;
 
+const txLED = document.getElementById('tx-led');
+
 export class AVRRunner {
   readonly program = new Uint16Array(FLASH);
   readonly cpu: CPU;
@@ -51,6 +53,9 @@ export class AVRRunner {
 
   // Serial buffer
   private serialBuffer: any = [];
+
+  // LED animation
+  private animation: boolean = true;
 
   constructor(hex: string) {
     // Load program
@@ -86,11 +91,21 @@ export class AVRRunner {
 
   // Function to send data to the serial port
   serialWrite(value: string) {
+     txLED.style.visibility = "visible";
+
     // Writing to UDR transmits the byte
     [...value].forEach(c => {
       // Write a character
       this.serialBuffer.push(c.charCodeAt(0));
     });
+
+    if (this.animation) {
+      this.animation = false;
+      setTimeout(() => {
+        txLED.style.visibility = "hidden";
+        this.animation = true;
+      }, 50);
+    }
   }
 
   serialOnLineTransmit() {
