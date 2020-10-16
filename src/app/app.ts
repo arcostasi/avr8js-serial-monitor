@@ -53,7 +53,7 @@ serialSend.addEventListener("click", serialTransmit);
 const serialScroll = document.querySelector<HTMLInputElement>('#serial-scroll');
 serialScroll.addEventListener("click", serialAutoScroll);
 
-const rxLED = document.getElementById('rx-led');
+const txLED = document.getElementById('tx-led');
 
 // Set up toolbar
 let runner: AVRRunner;
@@ -90,7 +90,7 @@ function executeProgram(hex: string) {
 
   // Connect to Serial port
   runner.usart.onByteTransmit = (value: number) => {
-    rxLED.style.visibility = "visible";
+    txLED.style.visibility = "visible";
     runnerOutputText.textContent += String.fromCharCode(value);
 
     // Checks auto scroll
@@ -101,9 +101,9 @@ function executeProgram(hex: string) {
     if (animation) {
       animation = false;
       setTimeout(() => {
-        rxLED.style.visibility = "hidden";
+        txLED.style.visibility = "hidden";
         animation = true;
-      }, 50);
+      }, 100);
     }
   };
 
@@ -120,7 +120,7 @@ function executeProgram(hex: string) {
     // Update status
     statusLabel.textContent = 'Simulation time: ';
     statusLabelTimer.textContent = `${time}`;
-    statusLabelSpeed.textContent = `${speed}%`;
+    statusLabelSpeed.textContent =  padLeft(speed, '&nbsp;', 3) + '%';
   });
 }
 
@@ -135,9 +135,9 @@ async function compileAndRun() {
   clearOutput();
 
   try {
-    statusLabel.textContent = 'Compiling...';
+    statusLabel.textContent = '    Compiling... ';
     statusLabelTimer.textContent = '00:00.000';
-    statusLabelSpeed.textContent = '0%';
+    statusLabelSpeed.textContent = '  0%';
 
     const result = await buildHex(getEditor().getValue(),
       getProjectFiles(), getProjectBoard(), getDebug());
@@ -164,7 +164,6 @@ async function compileAndRun() {
     compileButton.removeAttribute('disabled');
     runnerOutputText.textContent += err + "\n";
   } finally {
-    statusLabel.textContent = '';
     runButton.removeAttribute('disabled');
   }
 }
@@ -253,4 +252,8 @@ function changeFileInput() {
 
 function printChars(value: string) {
   return [...value].map(char => char.charCodeAt(0));
+}
+
+function padLeft(text: string, padChar: string, size:number): string {
+  return (String(padChar).repeat(size) + text).substr( (size * -1), size);
 }

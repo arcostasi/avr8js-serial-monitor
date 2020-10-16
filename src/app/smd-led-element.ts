@@ -48,25 +48,25 @@ export class SMDLEDElement extends LitElement {
     return html`
       <div class="led-container">
         <svg
-          width="40"
-          height="50"
+          width="50"
+          height="25"
           version="1.2"
-          viewBox="-10 -5 35.456 39.618"
+          viewBox="0 0 50 25"
           xmlns="http://www.w3.org/2000/svg"
         >
           <defs>
-            <g id="led-body" fill="#eee">
-              <rect x="0" y="0" height="1.2" width="2.6" fill="#333" filter="url(#solderPlate)" />
-              <rect x=".6" y="-0.1" width="1.35" height="1.4" stroke="#aaa" stroke-width=".05" />
+            <g id="led-body" fill="#aaa">
+              <rect x="-3" y="0" height="6" width="12" fill="#999" filter="url(#solderPlate)" />
+              <rect x="0" y="-0.2" width="6.2" height="6" stroke="#eee" stroke-width="1.05" />
             </g>
-            <filter id="ledFilter" x="-0.8" y="-0.8" height="2.2" width="2.8">
+            <filter id="ledFilter" x="-0.8" y="-0.8" height="5.2" width="9.8">
               <feGaussianBlur stdDeviation=".5" />
             </filter>
           </defs>
-        <g transform="translate(27.7 5)">
+        <g transform="translate(17.7 5)">
           <use xlink:href="#led-body" />
           ${lightOn &&
-          svg`<circle cx="1.3" cy=".55" r="1.3" fill="#ff8080" filter="url(#ledFilter)" />`}
+          svg`<circle cx="3.6" cy="2.3" r="3.3" fill="#80ff80" filter="url(#ledFilter)" />`}
         </g>
         </svg>
         <span class="led-label">${this.label}</span>

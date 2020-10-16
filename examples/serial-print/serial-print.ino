@@ -40,7 +40,7 @@ void loop() {
     Serial.println(x, BIN); // Print as an ASCII-encoded binary
 
     // Then adds the carriage return with "println"
-    delay(200);            // Delay 200 milliseconds
+    delay(500);            // Delay 500 milliseconds
   }
 
   Serial.println();        // Prints another carriage return
