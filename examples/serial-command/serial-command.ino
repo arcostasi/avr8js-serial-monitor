@@ -1,6 +1,5 @@
 // Demonstrate an AT command set interface using CommandHandler.
-// This implementation is similar to the AT command interface
-// of the Espressif ESP8266 WiFi module.
+// This implementation is similar to the AT command interface.
 
 #include "CommandHandler.h"
 
@@ -132,8 +131,11 @@ void commandTooLong(Stream &stream)
 void setup(void)
 {
   Serial.begin(9600);
+
   serialHandler.begin(serialCommandBuffer, sizeof(serialCommandBuffer),
     commands, numCommands, errorCommand, commandTooLong);
+
+  delay(200);
 
   // Print some help. No command was issued so don't send "OK"
   printHelp(Serial);

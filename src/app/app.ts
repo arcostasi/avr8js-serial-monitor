@@ -53,6 +53,7 @@ serialSend.addEventListener("click", serialTransmit);
 const serialScroll = document.querySelector<HTMLInputElement>('#serial-scroll');
 serialScroll.addEventListener("click", serialAutoScroll);
 
+const lLED = document.getElementById('l-led');
 const txLED = document.getElementById('tx-led');
 
 // Set up toolbar
@@ -76,6 +77,7 @@ function executeProgram(hex: string) {
   // Hook to PORTB register
   runner.portB.addListener((value) => {
     // Port B starts at pin 8 to 13
+    lLED.style.visibility = value & 1 << 5 ? "visible" : "hidden";
   });
 
   // Hook to PORTC register

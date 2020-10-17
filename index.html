@@ -11,12 +11,37 @@
   <body>
     <div id="container" class="container">
       <div class="parent">
-        <div class="toolbar">
+        <div class="toolbar noselect">
           <button id="loadhex-button" class="btn btn-dark big"><i class="icon ci-upload"></i> Load HEX</button>
           <button id="compile-button" class="btn btn-dark"><i class="icon ci-upload"></i> Compile</button>
           <button id="run-button" class="btn btn-dark"><i class="icon ci-play-outline"></i> Run</button>
           <button id="stop-button" class="btn btn-dark" disabled><i class="icon ci-pause-outline"></i> Stop</button>
           <div class="spacer"></div>
+
+          <div class="led-container">
+            <svg
+              width="50"
+              height="25"
+              version="1.2"
+              viewBox="0 0 50 25"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <defs>
+                <g id="led-body" fill="#aaa">
+                  <rect x="-3" y="0" height="6" width="12" fill="#999" />
+                  <rect x="0" y="-0.2" width="6.2" height="6" stroke="#eee" stroke-width="1.05" />
+                </g>
+                <filter id="ledFilter" x="-0.8" y="-0.8" height="5.2" width="9.8">
+                  <feGaussianBlur stdDeviation=".5" />
+                </filter>
+              </defs>
+              <g transform="translate(17.7 5)">
+                <use xlink:href="#led-body" />
+                <circle id="l-led" cx="3.6" cy="2.3" r="3.3" fill="#ff8080" filter="url(#ledFilter)" style="visibility:hidden" />
+              </g>
+            </svg>
+            <span class="led-label">L</span>
+          </div>
 
           <div class="led-container">
             <svg
@@ -85,7 +110,7 @@
             <pre id="runner-output-text"></pre>
           </div>
         </div>
-          <div class="toolbar bottom">
+          <div class="toolbar bottom noselect">
             <div class="spacer"></div>
             <span class="serial-label">&nbsp;Serial Input:</span>
             <input id="file-input" type="file" name="name" class="hide" />

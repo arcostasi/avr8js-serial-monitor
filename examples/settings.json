@@ -1,6 +1,11 @@
 {
     "projects": [
         {
+            "name": "blink",
+            "path": "./examples/blink/",
+            "board": "uno"
+        },
+        {
             "name": "serial-blank",
             "path": "./examples/serial-blank/",
             "board": "uno"
@@ -23,11 +28,6 @@
                 "CommandHandler.cpp",
                 "CommandHandler.h"
             ]
-        },
-        {
-            "name": "serial-art",
-            "path": "./examples/serial-art/",
-            "board": "uno"
         }
     ],
     "settings": {

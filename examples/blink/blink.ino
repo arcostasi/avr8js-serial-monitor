@@ -51,6 +51,14 @@ int main(void)
 
     while (1)
     {
-        // Put your code here
+        PORTB |= (1 << PORTB5);  // LED L on
+
+        USART_putstring("LED L: HIGH\n");
+        _delay_ms(500);
+
+        PORTB &= ~(1 << PORTB5); // LED L off
+
+        USART_putstring("LED L: LOW\n");
+        _delay_ms(500);
     }
 }

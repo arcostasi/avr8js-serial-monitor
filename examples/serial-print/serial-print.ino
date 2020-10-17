@@ -1,5 +1,5 @@
 /*
-  Uses a for loop to print numbers in various formats
+  Uses a for loop to print numbers in various formats on Arduino
 */
 void setup() {
   Serial.begin(9600); // Open the serial port at 9600 bps:

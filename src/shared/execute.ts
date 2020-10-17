@@ -32,7 +32,7 @@ import { EEPROMLocalStorageBackend } from './eeprom';
 // ATmega328p params
 const FLASH = 0x8000;
 
-const rxLED = document.getElementById('tx-led');
+const rxLED = document.getElementById('rx-led');
 
 export class AVRRunner {
   readonly program = new Uint16Array(FLASH);

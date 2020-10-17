@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   }
 
   // Load initial
-  loader('./examples/serial-print/', 'serial-print', '', 'uno');
+  loader('./examples/blink/', 'blink', '', 'uno');
 });
 
 // Change titlebar color
