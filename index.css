@@ -244,12 +244,17 @@ body {
   margin: 0;
   padding: 0;
   padding-top: 14px;
-  width: 250px;
+  width: 320px;
 }
 
 .serial-checkbox {
   margin-top: 18px;
+  margin-left: 10px;
   text-decoration: none;
+}
+
+.spacer-right {
+  width: 320px !important;
 }
 
 .error {

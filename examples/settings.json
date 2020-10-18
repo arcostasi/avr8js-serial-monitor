@@ -28,6 +28,11 @@
                 "CommandHandler.cpp",
                 "CommandHandler.h"
             ]
+        },
+        {
+            "name": "blink-uart",
+            "path": "./examples/blink-uart/",
+            "board": "uno"
         }
     ],
     "settings": {
