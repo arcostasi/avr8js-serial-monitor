@@ -122,7 +122,7 @@ function executeProgram(hex: string) {
     // Update status
     statusLabel.textContent = 'Simulation time: ';
     statusLabelTimer.textContent = `${time}`;
-    statusLabelSpeed.textContent =  padLeft(speed, '&nbsp;', 3) + '%';
+    statusLabelSpeed.textContent =  padLeft(speed, '0', 3) + '%';
   });
 }
 
@@ -256,6 +256,6 @@ function printChars(value: string) {
   return [...value].map(char => char.charCodeAt(0));
 }
 
-function padLeft(text: string, padChar: string, size:number): string {
-  return (String(padChar).repeat(size) + text).substr( (size * -1), size);
+function padLeft(text: string, padChar: string, size: number): string {
+  return (String(padChar).repeat(size) + text).substr((size * -1), size);
 }
