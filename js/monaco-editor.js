@@ -108,7 +108,7 @@ readTextFile = function(folder, fileName, type = 'file')
   request.send();
 }
 
-loader = function(path, name, files, board = 'uno') {
+loader = function(path, name, files, board = 'uno', ext = 'ino') {
   // Set project path & name
   setProjectPath(path);
   setProjectName(name);
@@ -130,5 +130,5 @@ loader = function(path, name, files, board = 'uno') {
   setProjectHex(getProjectPath(), getProjectName('.hex'));
 
   // Load project file
-  readTextFile(getProjectPath(), getProjectName('.ino'), 'model');
+  readTextFile(getProjectPath(), getProjectName('.' + ext), 'model');
 }

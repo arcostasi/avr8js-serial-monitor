@@ -3,12 +3,14 @@
         {
             "name": "blink",
             "path": "./examples/blink/",
-            "board": "uno"
+            "board": "uno",
+            "ext": "cpp"
         },
         {
             "name": "serial-blank",
             "path": "./examples/serial-blank/",
-            "board": "uno"
+            "board": "uno",
+            "ext": "cpp"
         },
         {
             "name": "serial-echo",
@@ -32,7 +34,8 @@
         {
             "name": "blink-uart",
             "path": "./examples/blink-uart/",
-            "board": "uno"
+            "board": "uno",
+            "ext": "cpp"
         }
     ],
     "settings": {

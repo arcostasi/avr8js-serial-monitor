@@ -4,7 +4,7 @@ const fs = require('fs')
 let json = require('../../examples/settings.json');
 
 // Get Loader
-declare function loader(path: any, name: any, files: any, board: any): any;
+declare function loader(path: any, name: any, files: any, board: any, ext: any): any;
 declare function setDebug(value: boolean): any;
 
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -24,6 +24,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
       loader += ",'" + data.board + "'";
     }
 
+    if (data.ext != undefined) {
+      loader += ",'" + data.ext + "'";
+    }
+
     loader += ");";
 
     document.getElementById("editor-tab").innerHTML +=
@@ -35,7 +39,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   }
 
   // Load initial
-  loader('./examples/blink/', 'blink', '', 'uno');
+  loader('./examples/blink/', 'blink', '', 'uno', 'cpp');
 });
 
 // Change titlebar color
