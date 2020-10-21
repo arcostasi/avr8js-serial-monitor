@@ -36,6 +36,28 @@
             "path": "./examples/blink-uart/",
             "board": "uno",
             "ext": "cpp"
+        },
+        {
+            "name": "blink-asm",
+            "path": "./examples/blink-asm/",
+            "board": "uno",
+            "ext": "c",
+            "files": [
+                "blink.S"
+            ]
+        },
+        {
+            "name": "emu6502",
+            "path": "./examples/emu6502/",
+            "board": "fakeuno",
+            "components": [
+                "wokwi-ssd1306"
+            ],
+            "__fakeRamSize": "32768",
+            "files": [
+                "cpu.c",
+                "rom.h"
+            ]
         }
     ],
     "settings": {

@@ -1,5 +1,7 @@
-// Demonstrate an AT command set interface using CommandHandler.
-// This implementation is similar to the AT command interface.
+/*
+ * Demonstrate an AT command set interface using CommandHandler.
+ * This implementation is similar to the AT command interface.
+ */
 
 #include "CommandHandler.h"
 
