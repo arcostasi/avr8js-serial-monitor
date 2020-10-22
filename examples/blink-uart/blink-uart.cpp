@@ -51,14 +51,11 @@ int main(void)
 
     while (1)
     {
-        PORTB |= (1 << PORTB5);  // LED L on
+        PORTB ^= (1 << PORTB5);  // Switch LED L
 
-        uart_puts("LED L: HIGH\n");
-        _delay_ms(500);
-
-        PORTB &= ~(1 << PORTB5); // LED L off
-
-        uart_puts("LED L: LOW\n");
+        uart_puts("LED L: ");
+        uart_puts(!(PORTB & (HIGH << DDB5)) ? "LOW" : "HIGH");
+        uart_puts("\n");
         _delay_ms(500);
     }
 }

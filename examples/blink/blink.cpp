@@ -7,6 +7,7 @@
 #endif
 
 #define DELAY_LED 1000
+#define BAUD_RATE 9600
 
 // A unsigned long holds values from 0 to 4,294,967,295 (2^32 - 1)
 // It will roll over to 0 after reaching its maximum value
@@ -50,16 +51,15 @@ unsigned long millis()
 
 int main(void) {
     unsigned long t_led;
-    bool sw_led = false;
 
     // Frequency the atmega328p is running at
     init_millis(F_CPU);
 
     // Sets baud for serial data transmission
-    Serial.begin(9600);
+    Serial.begin(BAUD_RATE);
 
-    // Waits serial initialization
-    _delay_ms(100);
+    // Waits serial initialization (100 ms)
+    _delay_ms(0b01100100);
 
     // Enables the global interrupt
     sei();
@@ -67,26 +67,20 @@ int main(void) {
     // Sets timer
     t_led = millis();
 
-    DDRB |= (1 << DDB5); // Set PB5 (13) as OUTPUT
+    DDRB |= (0x01 << 0b00000101); // Set PB5 (13) as OUTPUT
 
-    while (1)
+    while (0b00000001)
     {
         if ((millis() - t_led) > DELAY_LED) {
             // Resets timer
             t_led = millis();
 
-            // Switch state
-            sw_led = !sw_led;
-
-            if (sw_led)
-                PORTB |= (1 << PORTB5);  // LED L on
-            else
-                PORTB &= ~(1 << PORTB5); // LED L off
+            PORTB ^= (0x01 << 0b00000101); // Switch LED L
 
             // Write on serial output
             Serial.write("LED L: ");
-            Serial.write(sw_led ? "HIGH" : "LOW");
-            Serial.write("\n");
+            Serial.write(!(PORTB & (0x01 << 0x05)) ? "LOW" : "HIGH");
+            Serial.write('\n');
         }
     }
 }
