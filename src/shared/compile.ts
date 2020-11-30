@@ -33,7 +33,13 @@ export async function buildHex(source: string, files: any,
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ sketch: source, files, board: board })
+    body: JSON.stringify({
+      sketch: source, files,
+      board: board,
+      options: {
+        ramSize: 32768
+      }
+    })
   });
 
   if (!resp.ok) {
