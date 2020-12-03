@@ -46,9 +46,14 @@
             "board": "uno",
             "ext": "c",
             "files": [
-                "blink.h",
                 "blink.S"
             ]
+        },
+        {
+            "name": "inline-asm",
+            "path": "./examples/inline-asm/",
+            "board": "uno",
+            "ext": "c"
         },
         {
             "name": "emu6502",
