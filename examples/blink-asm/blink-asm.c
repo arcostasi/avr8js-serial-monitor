@@ -3,6 +3,10 @@
  *
  * For more details see in:
  * http://forum.arduino.cc/index.php?topic=159572#msg1194604
+ *
+ * ┍━━━━━━━━━━━━━━━━━━━━━━━━┑
+ * │ Take a look at blink.S │
+ * ┕━━━━━━━━━━━━━━━━━━━━━━━━┙
  */
 
 extern "C" {

@@ -1,16 +1,6 @@
 /**
- * This is an example for EhBasic based on SSD1306
+ * This is an example for EhBasic based on post:
  * https://jeelabs.org/book/1549b/
- *
- * The hex file is already in the folder,
- * just click on run to simulate.
- *
- * If you want to compile the code, use your arduino platform,
- * the server does not support large files.
- *
- * NOTES: A 413 Request Entity Too Large error occurs when a
- * request made from a client is too large to be
- * processed by the web server.
  */
 
 uint8_t curkey = 0;
