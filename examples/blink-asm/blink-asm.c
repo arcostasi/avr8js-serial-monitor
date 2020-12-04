@@ -17,10 +17,12 @@ extern "C" {
 
 int main(void)
 {
+    // This routine (declared above as an external)
     start();
 
     while (true)
     {
+        // This routine (declared above as an external)
         blink();
     }
 
