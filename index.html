@@ -18,6 +18,12 @@
           <button id="stop-button" class="btn btn-dark" disabled><i class="icon ci-pause-outline"></i> Stop</button>
           <div class="spacer"></div>
 
+          <div class="slider-container">
+            <input type="range" min="0" max="1023" value="512" class="slider" id="analogA0">
+            <span class="slider-label" id="labelA0">A0: 512</span>
+          </div>
+
+          <div class="spacer"></div>
           <div class="led-container">
             <svg
               width="50"
@@ -118,8 +124,10 @@
             <button id="serial-send" class="btn btn-dark"><i class="icon ci-download"></i> Send</button>
             <button id="clear-button" class="btn btn-dark"><i class="icon ci-more"></i> Clear</button>
             <div class="spacer-right"></div>
-            <input id="serial-scroll" type="checkbox" class="serial-checkbox" checked>
-            <span class="serial-label">&nbsp;Auto scroll</span>
+            <label class="checkbox">
+              <input id="serial-scroll" type="checkbox" class="serial-checkbox" checked>
+              <span class="serial-label">&nbsp;Auto scroll</span>
+            </label>
           </div>
       </div>
     </div>

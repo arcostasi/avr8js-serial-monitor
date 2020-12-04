@@ -56,6 +56,11 @@ serialScroll.addEventListener("click", serialAutoScroll);
 const lLED = document.getElementById('l-led');
 const txLED = document.getElementById('tx-led');
 
+const analogA0 = document.querySelector<HTMLInputElement>('#analogA0');
+analogA0.addEventListener('change', changeAnalogA0);
+
+let labelA0 = document.querySelector<HTMLElement>('#labelA0');
+
 // Set up toolbar
 let runner: AVRRunner;
 let board = 'uno';
@@ -73,6 +78,9 @@ function executeProgram(hex: string) {
   const i2cBus = new I2CBus(runner.twi);
 
   let animation = true;
+
+  // Set analog A0
+  runner.setAnalogValue(parseInt(analogA0.value));
 
   // Hook to PORTB register
   runner.portB.addListener((value) => {
@@ -258,4 +266,10 @@ function printChars(value: string) {
 
 function padLeft(text: string, padChar: string, size: number): string {
   return (String(padChar).repeat(size) + text).substr((size * -1), size);
+}
+
+function changeAnalogA0() {
+  labelA0.textContent = "A0: " + analogA0.value;
+  // Write analog value
+  runner.setAnalogValue(parseInt(analogA0.value));
 }

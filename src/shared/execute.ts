@@ -22,7 +22,7 @@ import {
   timer2Config,
   usart0Config,
   spiConfig,
-  twiConfig,
+  twiConfig
 } from 'avr8js';
 
 import { loadHex } from './intelhex';
@@ -86,7 +86,20 @@ export class AVRRunner {
     // this.serialOnLineTransmit();
     this.cpu.readHooks[usart0Config.UDR] = () => this.serialBuffer.shift() || 0;
 
+    this.cpu.writeHooks[0x7a] = value => {
+      if (value & (1 << 6)) {
+        this.cpu.data[0x7a] = value & ~(1 << 6); // Clear bit - conversion done
+        return true; // Don't update
+      }
+    };
+
     this.taskScheduler.start();
+  }
+
+  setAnalogValue(analogValue: number) {
+    // Write analog value to ADCH and ADCL
+    this.cpu.data[0x78] = analogValue & 0xff;
+    this.cpu.data[0x79] = (analogValue >> 8) & 0x3;
   }
 
   // Function to send data to the serial port

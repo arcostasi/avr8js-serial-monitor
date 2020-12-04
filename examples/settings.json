@@ -16,6 +16,12 @@
             ]
         },
         {
+            "name": "serial-analog",
+            "path": "./examples/serial-analog/",
+            "board": "uno",
+            "ext": "cpp"
+        },
+        {
             "name": "serial-echo",
             "path": "./examples/serial-echo/",
             "board": "uno"
