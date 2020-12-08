@@ -59,6 +59,15 @@ const txLED = document.getElementById('tx-led');
 const analogA0 = document.querySelector<HTMLInputElement>('#analogA0');
 analogA0.addEventListener('change', changeAnalogA0);
 
+const inputD2 = document.querySelector<HTMLInputElement>('#input-d2');
+inputD2.addEventListener('click', changeInputD2);
+
+const inputD3 = document.querySelector<HTMLInputElement>('#input-d3');
+inputD3.addEventListener('click', changeInputD3);
+
+const inputD4 = document.querySelector<HTMLInputElement>('#input-d4');
+inputD4.addEventListener('click', changeInputD4);
+
 let labelA0 = document.querySelector<HTMLElement>('#labelA0');
 
 // Set up toolbar
@@ -272,4 +281,17 @@ function changeAnalogA0() {
   labelA0.textContent = "A0: " + analogA0.value;
   // Write analog value
   runner.setAnalogValue(parseInt(analogA0.value));
+}
+
+// Port D starts at pin 0 to 7
+function changeInputD2() {
+  runner.portD.setPin(2, inputD2.checked);
+}
+
+function changeInputD3() {
+  runner.portD.setPin(3, inputD3.checked);
+}
+
+function changeInputD4() {
+  runner.portD.setPin(4, inputD4.checked);
 }

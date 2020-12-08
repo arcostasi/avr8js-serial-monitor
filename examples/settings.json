@@ -16,6 +16,12 @@
             ]
         },
         {
+            "name": "serial-input",
+            "path": "./examples/serial-input/",
+            "board": "uno",
+            "ext": "cpp"
+        },
+        {
             "name": "serial-analog",
             "path": "./examples/serial-analog/",
             "board": "uno",
@@ -32,19 +38,13 @@
             "board": "uno"
         },
         {
-            "name": "serial-command",
+            "name": "serial-cmd",
             "path": "./examples/serial-command/",
             "board": "uno",
             "files": [
                 "CommandHandler.cpp",
                 "CommandHandler.h"
             ]
-        },
-        {
-            "name": "blink-uart",
-            "path": "./examples/blink-uart/",
-            "board": "uno",
-            "ext": "cpp"
         },
         {
             "name": "blink-asm",

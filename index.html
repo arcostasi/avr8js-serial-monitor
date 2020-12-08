@@ -18,6 +18,21 @@
           <button id="stop-button" class="btn btn-dark" disabled><i class="icon ci-pause-outline"></i> Stop</button>
           <div class="spacer"></div>
 
+          <label class="checkbox spacer-left">
+            <input id="input-d2" type="checkbox" class="serial-checkbox">
+            <span class="input-label">D2</span>
+          </label>
+
+          <label class="checkbox">
+            <input id="input-d3" type="checkbox" class="serial-checkbox">
+            <span class="input-label">D3</span>
+          </label>
+
+          <label class="checkbox">
+            <input id="input-d4" type="checkbox" class="serial-checkbox">
+            <span class="input-label">D4</span>
+          </label>
+
           <div class="slider-container">
             <input type="range" min="0" max="1023" value="512" class="slider" id="analogA0">
             <span class="slider-label" id="labelA0">A0: 512</span>
@@ -118,7 +133,7 @@
         </div>
           <div class="toolbar bottom noselect">
             <div class="spacer"></div>
-            <span class="serial-label">&nbsp;Serial Input:</span>
+            <span class="serial-label">Serial Input:</span>
             <input id="file-input" type="file" name="name" class="hide" />
             <input id="serial-input" type="text" class="serial-input">&nbsp;
             <button id="serial-send" class="btn btn-dark"><i class="icon ci-download"></i> Send</button>
@@ -126,7 +141,7 @@
             <div class="spacer-right"></div>
             <label class="checkbox">
               <input id="serial-scroll" type="checkbox" class="serial-checkbox" checked>
-              <span class="serial-label">&nbsp;Auto scroll</span>
+              <span class="serial-label">Auto scroll</span>
             </label>
           </div>
       </div>

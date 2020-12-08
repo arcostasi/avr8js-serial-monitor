@@ -134,6 +134,10 @@ body {
   flex: 1;
 }
 
+.spacer-left {
+  padding-left: 10px;
+}
+
 .hide {
   display: none;
 }
@@ -240,11 +244,27 @@ body {
   transition: all .4s ease-in-out;
 }
 
+.input-label {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  padding-top: 22px;
+  padding-left: 5px;
+  padding-right: 10px;
+  font-size: 10px;
+  text-align: center;
+  color: gray;
+  line-height: 1;
+  white-space: nowrap;
+}
+
 .serial-label {
   margin: 0;
   padding: 0;
   padding-top: 14px;
-  width: 320px;
+  padding-left: 15px;
+  padding-right: 15px;
+  white-space: nowrap;
 }
 
 .serial-checkbox {
@@ -254,7 +274,7 @@ body {
 }
 
 .spacer-right {
-  width: 320px !important;
+  width: 340px !important;
 }
 
 .error {
@@ -443,10 +463,10 @@ input[type="submit"]:hover,
 }
 
 .slider-container {
-  width: 100px; /* Width of the outside container */
+  width: 120px; /* Width of the outside container */
   margin-top: 5px;
   margin-bottom: 5px;
-  margin-left: 25px;
+  margin-left: 30px;
   margin-right: 25px;
 }
 
