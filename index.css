@@ -463,7 +463,7 @@ input[type="submit"]:hover,
 }
 
 .slider-container {
-  width: 120px; /* Width of the outside container */
+  width: 100px; /* Width of the outside container */
   margin-top: 5px;
   margin-bottom: 5px;
   margin-left: 30px;
