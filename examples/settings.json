@@ -39,7 +39,7 @@
         },
         {
             "name": "serial-cmd",
-            "path": "./examples/serial-command/",
+            "path": "./examples/serial-cmd/",
             "board": "uno",
             "files": [
                 "CommandHandler.cpp",
