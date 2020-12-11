@@ -3,6 +3,8 @@
  * https://jeelabs.org/book/1549b/
  */
 
+#include <util/delay2.h>
+
 uint8_t curkey = 0;
 
 extern "C" {
@@ -23,7 +25,8 @@ extern "C" {
     }
 }
 
-void setup () {
+int main(void)
+{
     // Increase RAM size
     SP = 0x7fff;
 
@@ -33,17 +36,25 @@ void setup () {
     // Initializes the serial port
     Serial.begin(115200);
 
+    // Waits serial initialization
+    _delay_ms(100);
+
+    sei();
+
     // Prints the number of bytes in the serial output
     Serial.print("[emu6502] ");
     Serial.print(romSize);
     Serial.println(" bytes");
-}
 
-void loop () {
-    // Initializes the 6502 emulator
-    exec6502(1000);
+    while (true)
+    {
+        // Initializes the 6502 emulator
+        exec6502(1000);
 
-    // Get the serial output character
-    if (curkey == 0 && Serial.available())
-        curkey = Serial.read() & 0x7F;
+        // Get the serial output character
+        if (curkey == 0 && Serial.available())
+            curkey = Serial.read() & 0x7F;
+    }
+
+    return 0;
 }

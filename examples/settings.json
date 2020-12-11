@@ -65,6 +65,7 @@
             "name": "emu6502",
             "path": "./examples/emu6502/",
             "board": "fakeuno",
+            "ext": "cpp",
             "components": [
                 "wokwi-ssd1306"
             ],
