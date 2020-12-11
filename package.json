@@ -1,6 +1,6 @@
 {
   "name": "avr8js-serial-monitor",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "arcostasi",
   "license": "MIT",
   "description": "An AVR8 simulator with virtual serial monitor",

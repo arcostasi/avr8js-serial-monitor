@@ -5,20 +5,10 @@ import { AVRRunner } from "../shared/execute";
 import { formatTime } from "../shared/format-time";
 import { EditorHistoryUtil } from '../shared/editor-history.util';
 import { I2CBus } from "../shared/i2c-bus";
-import { SMDLEDElement } from './smd-led-element';
 
+// Using CommonJS modules
+import * as ed from './editor'
 import * as fs from "fs";
-
-// Get Monaco Editor
-declare function getEditor(): any;
-declare function getProjectPath(): any;
-declare function getProjectName(ext: any): any;
-declare function getProjectHex(): any;
-declare function setProjectHex(folder: any, fileHex: any): any;
-declare function getProjectFiles(): any;
-declare function getProjectBoard(): any;
-declare function getComponents(): any;
-declare function getDebug(): any;
 
 // Add events to the buttons
 const compileButton = document.querySelector("#compile-button");
@@ -158,15 +148,15 @@ async function compileAndRun() {
     statusLabelTimer.textContent = '00:00.000';
     statusLabelSpeed.textContent = '  0%';
 
-    const result = await buildHex(getEditor().getValue(),
-      getProjectFiles(), getProjectBoard(), getDebug());
+    const result = await buildHex(ed.getEditor().getValue(),
+      ed.getProjectFiles(), ed.getProjectBoard(), ed.getDebug());
 
     if (result.hex) {
       // Set project hex filename
-      setProjectHex(getProjectPath(), getProjectName('.hex'));
+      ed.setProjectHex(ed.getProjectPath(), ed.getProjectName('.hex'));
 
       // Save hex
-      fs.writeFile(getProjectHex(), result.hex, function (err) {
+      fs.writeFile(ed.getProjectHex(), result.hex, function (err) {
           if (err) return console.log(err)
       });
 
@@ -177,23 +167,24 @@ async function compileAndRun() {
 
     // Check result error
     if (result.stderr != undefined || result.stdout != undefined) {
+      statusLabel.textContent = '   Build error!  ';
       runnerOutputText.textContent = result.stderr || result.stdout;
     }
   } catch (err) {
-    compileButton.removeAttribute('disabled');
     runnerOutputText.textContent += err + "\n";
   } finally {
+    compileButton.removeAttribute('disabled');
     runButton.removeAttribute('disabled');
   }
 }
 
 function storeUserSnippet() {
   EditorHistoryUtil.clearSnippet();
-  EditorHistoryUtil.storeSnippet(getEditor().getValue());
+  EditorHistoryUtil.storeSnippet(ed.getEditor().getValue());
 }
 
 function onlyRun() {
-  fs.readFile(getProjectHex(), 'utf8', function(err, data) {
+  fs.readFile(ed.getProjectHex(), 'utf8', function(err, data) {
     if (err) {
       runnerOutputText.textContent += err + "\n";
     }
@@ -262,7 +253,7 @@ function changeFileInput() {
 
   if (file.name.match(/\.(hex)$/)) {
     // Set project hex filename
-    setProjectHex(file.path, '');
+    ed.setProjectHex(file.path, '');
     runnerOutputText.textContent += "Load HEX: " + file.path + "\n";
   } else {
     runnerOutputText.textContent += "File not supported, .hex files only!\n";
@@ -279,19 +270,24 @@ function padLeft(text: string, padChar: string, size: number): string {
 
 function changeAnalogA0() {
   labelA0.textContent = "A0: " + analogA0.value;
+
   // Write analog value
-  runner.setAnalogValue(parseInt(analogA0.value));
+  if (runner)
+    runner.setAnalogValue(parseInt(analogA0.value));
 }
 
 // Port D starts at pin 0 to 7
 function changeInputD2() {
-  runner.portD.setPin(2, inputD2.checked);
+  if (runner)
+    runner.portD.setPin(2, inputD2.checked);
 }
 
 function changeInputD3() {
-  runner.portD.setPin(3, inputD3.checked);
+  if (runner)
+    runner.portD.setPin(3, inputD3.checked);
 }
 
 function changeInputD4() {
-  runner.portD.setPin(4, inputD4.checked);
+  if (runner)
+    runner.portD.setPin(4, inputD4.checked);
 }

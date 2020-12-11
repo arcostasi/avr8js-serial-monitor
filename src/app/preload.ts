@@ -1,45 +1,44 @@
 import { Titlebar, Color } from 'custom-electron-titlebar'
+import * as ed from './editor'
 
+// Using CommonJS modules
 const fs = require('fs')
 let json = require('../../examples/settings.json');
-
-// Get Loader
-declare function loader(path: any, name: any, files: any, board: any, ext: any): any;
-declare function setDebug(value: boolean): any;
 
 document.addEventListener('DOMContentLoaded', (event) => {
 
   json.projects.forEach((data: any, index: any) => {
 
-    let loader = "loader('" + data.path + "','"
-                            + data.name + "'";
-
-    if (data.files != undefined) {
-      loader += ",'" + data.files + "'";
-    } else {
-      loader += ",''";
-    }
+    let board = 'uno';
+    let ext = 'ino';
 
     if (data.board != undefined) {
-      loader += ",'" + data.board + "'";
+      board = data.board;
     }
 
     if (data.ext != undefined) {
-      loader += ",'" + data.ext + "'";
+     ext = data.ext;
     }
 
-    loader += ");";
+    let button = document.createElement("button");
 
-    document.getElementById("editor-tab").innerHTML +=
-      '<button class="btn-white" onclick="' + loader + '">' + data.name + "</button>";
+    // Assign different attributes to the element
+    button.setAttribute("name", "btn-" + index);
+    button.setAttribute("class", "btn-white");
+    button.innerText = data.name;
+    button.onclick = function() {
+      ed.loader(data.path, data.name, data.files, board, ext);
+    }
+
+    document.getElementById("editor-tab").appendChild(button);
   });
 
   if (json.settings.debug != undefined) {
-    setDebug(json.settings.debug);
+    ed.setDebug(json.settings.debug);
   }
 
-  // Load initial
-  loader('./examples/blink/', 'blink', '', 'uno', 'cpp');
+  // Load start
+  ed.loader('./examples/blink/', 'blink', [], 'uno', 'cpp');
 });
 
 // Change titlebar color
