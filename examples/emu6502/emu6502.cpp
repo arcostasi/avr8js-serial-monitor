@@ -3,7 +3,7 @@
  * https://jeelabs.org/book/1549b/
  */
 
-#include <util/delay2.h>
+#include <util/delay.h>
 
 uint8_t curkey = 0;
 
