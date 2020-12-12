@@ -65,7 +65,7 @@ export class AVRRunner {
   private timerClock: number = 0;
   private lastTimerClock: number = 0;
   private cyclesToRun: number = 0;
-  private workSyncCycles: number = 0;
+  private workSyncCycles: number = 1;
 
   constructor(hex: string) {
     // Load program
@@ -150,8 +150,6 @@ export class AVRRunner {
 
   // CPU main loop
   execute(callback: (cpu: CPU) => void) {
-    this.cyclesToRun = this.cpu.cycles + this.workUnitCycles;
-
     // Checks the runtime sync
     if ((performance.now() - this.timerSync) > this.timerSyncFix) {
       // Reset timer sync
@@ -160,20 +158,17 @@ export class AVRRunner {
       // Update current timer clock
       this.timerClock = this.clock.timeMillis - this.lastTimerClock;
 
-       // Checks if the runtime clock is higher
+      // Checks if the runtime clock is higher
       if (this.timerClock > this.timerSyncFix) {
         // Get the time difference
-        this.workSyncCycles = this.timerSyncFix / this.timerClock;
-
-        console.log(this.workSyncCycles);
-
-        // Fix cycles to run
-        this.cyclesToRun = this.cpu.cycles + (this.workUnitCycles * this.workSyncCycles);
+        this.workSyncCycles *= this.timerSyncFix / this.timerClock;
       }
 
       // Reset timer clock
       this.lastTimerClock = this.clock.timeMillis;
-   }
+    }
+
+    this.cyclesToRun = this.cpu.cycles + this.workUnitCycles * this.workSyncCycles;
 
     while (this.cpu.cycles < this.cyclesToRun) {
       // Instruction timing is currently based on ATmega328p
