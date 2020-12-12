@@ -41,7 +41,7 @@ class Main {
     });
 
     // Open the DevTools
-    // this.mainWindow.webContents.openDevTools();
+    this.mainWindow.webContents.openDevTools();
 
     // and load the index.html of the app
     this.mainWindow.loadFile(path.join(__dirname, "../../index.html"));
