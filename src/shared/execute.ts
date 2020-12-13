@@ -14,6 +14,7 @@ import {
   AVRUSART,
   AVRSPI,
   AVRTWI,
+  AVRClock,
   portBConfig,
   portCConfig,
   portDConfig,
@@ -37,6 +38,7 @@ const rxLED = document.getElementById('rx-led');
 export class AVRRunner {
   readonly program = new Uint16Array(FLASH);
   readonly cpu: CPU;
+  readonly clock: AVRClock;
   readonly timer0: AVRTimer;
   readonly timer1: AVRTimer;
   readonly timer2: AVRTimer;
@@ -48,7 +50,8 @@ export class AVRRunner {
   readonly spi: AVRSPI;
   readonly twi: AVRTWI;
   readonly frequency = 16e6; // 16 MHZ
-  readonly workUnitCycles = 500000;
+  readonly workUnitCycles = 100000;
+  readonly timerSyncFix = 10; // ms
   readonly taskScheduler = new MicroTaskScheduler();
 
   // Serial buffer
@@ -56,6 +59,13 @@ export class AVRRunner {
 
   // LED animation
   private animation: boolean = true;
+
+  // Timers
+  private timerSync: number = 0;
+  private timerClock: number = 0;
+  private lastTimerClock: number = 0;
+  private cyclesToRun: number = 0;
+  private workSyncCycles: number = 1;
 
   constructor(hex: string) {
     // Load program
@@ -69,6 +79,8 @@ export class AVRRunner {
       // Arduino UNO (ATmega328)
       this.cpu = new CPU(this.program);
     }
+
+    this.clock = new AVRClock(this.cpu, this.frequency);
 
     this.timer0 = new AVRTimer(this.cpu, timer0Config);
     this.timer1 = new AVRTimer(this.cpu, timer1Config);
@@ -138,13 +150,24 @@ export class AVRRunner {
 
   // CPU main loop
   execute(callback: (cpu: CPU) => void) {
-    const cyclesToRun = this.cpu.cycles + this.workUnitCycles;
 
-    while (this.cpu.cycles < cyclesToRun) {
+    if ((performance.now() - this.timerSync) > this.timerSyncFix) {
+      this.timerSync = performance.now();
+      this.timerClock = this.clock.timeMillis - this.lastTimerClock;
+
+      if (this.timerClock > this.timerSyncFix) {
+        this.workSyncCycles *= this.timerSyncFix / this.timerClock;
+      }
+
+      this.lastTimerClock = this.clock.timeMillis;
+    }
+
+    this.cyclesToRun = this.cpu.cycles + this.workUnitCycles * this.workSyncCycles;
+
+    while (this.cpu.cycles < this.cyclesToRun) {
       // Instruction timing is currently based on ATmega328p
       avrInstruction(this.cpu);
 
-      // Ticks update
       this.cpu.tick();
 
       // Serial complete interrupt
@@ -175,6 +198,6 @@ export class AVRRunner {
 
         return true; // Don't update
       }
-    };
+    }
   }
 }
