@@ -21,6 +21,7 @@ export class CPUPerformance {
     this.prevTime = 0;
     this.prevCycles = 0;
     this.sampleIndex = 0;
+    this.resultTime = 0;
   }
 
   update() {
@@ -38,11 +39,12 @@ export class CPUPerformance {
       this.samples[this.sampleIndex++ % this.samples.length] = factor;
     }
 
-    this.prevCycles = this.cpu.cycles;
-    this.prevTime = performance.now();
     this.avg = this.samples.reduce((x, y) => x + y) / this.samples.length;
 
-    if ((this.prevTime - this.resultTime) > 100) {
+    this.prevCycles = this.cpu.cycles;
+    this.prevTime = performance.now();
+
+    if ((this.prevTime - this.resultTime) > 200) {
       this.resultTime = this.prevTime;
       this.result = this.avg;
     }

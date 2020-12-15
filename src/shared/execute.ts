@@ -67,6 +67,10 @@ export class AVRRunner {
   private cyclesToRun: number = 0;
   private workSyncCycles: number = 1;
 
+  private samples = new Float32Array(64);
+  private sampleIndex = 0;
+  private avg = 0
+
   constructor(hex: string) {
     // Load program
     loadHex(hex, new Uint8Array(this.program.buffer));
@@ -156,7 +160,23 @@ export class AVRRunner {
       this.timerClock = this.clock.timeMillis - this.lastTimerClock;
 
       if (this.timerClock > this.timerSyncFix) {
+        // High speed correction
         this.workSyncCycles *= this.timerSyncFix / this.timerClock;
+      } else {
+        // Low speed correction
+        this.workSyncCycles += 0.00001;
+      }
+
+      if (!this.sampleIndex) {
+        this.samples.fill(this.workSyncCycles);
+      }
+
+      this.samples[this.sampleIndex++ % this.samples.length] = this.workSyncCycles;
+      this.avg = this.samples.reduce((x, y) => x + y) / this.samples.length;
+
+      if (this.sampleIndex >= this.samples.length) {
+        this.sampleIndex = 0;
+        this.workSyncCycles = this.avg;
       }
 
       this.lastTimerClock = this.clock.timeMillis;
