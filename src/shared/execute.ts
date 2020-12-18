@@ -29,6 +29,7 @@ import {
 import { loadHex } from './intelhex';
 import { MicroTaskScheduler } from './task-scheduler';
 import { EEPROMLocalStorageBackend } from './eeprom';
+import { CPUPerformance } from '../shared/cpu-performance';
 
 // ATmega328p params
 const FLASH = 0x8000;
@@ -51,8 +52,8 @@ export class AVRRunner {
   readonly twi: AVRTWI;
   readonly frequency = 16e6; // 16 MHZ
   readonly workUnitCycles = 100000;
-  readonly timerSyncFix = 10; // ms
   readonly taskScheduler = new MicroTaskScheduler();
+  readonly performance: CPUPerformance;
 
   // Serial buffer
   private serialBuffer: any = [];
@@ -60,16 +61,9 @@ export class AVRRunner {
   // LED animation
   private animation: boolean = true;
 
-  // Timers
-  private timerSync: number = 0;
-  private timerClock: number = 0;
-  private lastTimerClock: number = 0;
+  // Cycles
   private cyclesToRun: number = 0;
   private workSyncCycles: number = 1;
-
-  private samples = new Float32Array(64);
-  private sampleIndex = 0;
-  private avg = 0
 
   constructor(hex: string) {
     // Load program
@@ -84,7 +78,7 @@ export class AVRRunner {
       this.cpu = new CPU(this.program);
     }
 
-    this.clock = new AVRClock(this.cpu, this.frequency);
+    this.performance = new CPUPerformance(this.cpu, this.frequency);
 
     this.timer0 = new AVRTimer(this.cpu, timer0Config);
     this.timer1 = new AVRTimer(this.cpu, timer1Config);
@@ -154,32 +148,13 @@ export class AVRRunner {
 
   // CPU main loop
   execute(callback: (cpu: CPU) => void) {
+    const speed = this.performance.update();
 
-    if ((performance.now() - this.timerSync) > this.timerSyncFix) {
-      this.timerSync = performance.now();
-      this.timerClock = this.clock.timeMillis - this.lastTimerClock;
-
-      if (this.timerClock > this.timerSyncFix) {
-        // High speed correction
-        this.workSyncCycles *= this.timerSyncFix / this.timerClock;
-      } else {
-        // Low speed correction
-        this.workSyncCycles += 0.00001;
-      }
-
-      if (!this.sampleIndex) {
-        this.samples.fill(this.workSyncCycles);
-      }
-
-      this.samples[this.sampleIndex++ % this.samples.length] = this.workSyncCycles;
-      this.avg = this.samples.reduce((x, y) => x + y) / this.samples.length;
-
-      if (this.sampleIndex >= this.samples.length) {
-        this.sampleIndex = 0;
-        this.workSyncCycles = this.avg;
-      }
-
-      this.lastTimerClock = this.clock.timeMillis;
+    // Execution throttling
+    if (speed > 1.02) {
+      this.workSyncCycles *= Math.floor(1 / speed);
+    } else {
+      this.workSyncCycles = 1;
     }
 
     this.cyclesToRun = this.cpu.cycles + this.workUnitCycles * this.workSyncCycles;

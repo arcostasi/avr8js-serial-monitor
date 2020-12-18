@@ -77,6 +77,9 @@ function executeProgram(hex: string) {
   const i2cBus = new I2CBus(runner.twi);
 
   let animation = true;
+  let previousMillis = 0;
+
+  statusLabel.textContent = 'Simulation time: ';
 
   // Set analog A0
   runner.setAnalogValue(parseInt(analogA0.value));
@@ -125,11 +128,15 @@ function executeProgram(hex: string) {
   runner.execute((cpu) => {
     const time = formatTime(cpu.cycles / runner.frequency);
     const speed = (cpuPerf.update() * 100).toFixed(0);
+    const millis = performance.now();
 
-    // Update status
-    statusLabel.textContent = 'Simulation time: ';
     statusLabelTimer.textContent = `${time}`;
-    statusLabelSpeed.textContent =  padLeft(speed, '0', 3) + '%';
+
+    if ((millis - previousMillis) > 200) {
+      // Update status
+      previousMillis = millis;
+      statusLabelSpeed.textContent = padLeft(speed, '0', 3) + '%';
+    }
   });
 }
 
@@ -167,7 +174,6 @@ async function compileAndRun() {
 
     // Check result error
     if (result.stderr != undefined || result.stdout != undefined) {
-      statusLabel.textContent = '   Build error!  ';
       runnerOutputText.textContent = result.stderr || result.stdout;
     }
   } catch (err) {
