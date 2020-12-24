@@ -5,6 +5,9 @@ import { AVRRunner } from "../shared/execute";
 import { formatTime } from "../shared/format-time";
 import { EditorHistoryUtil } from '../shared/editor-history.util';
 import { I2CBus } from "../shared/i2c-bus";
+import { Point } from '../shared/geometry'
+import { Color } from '../shared/graphics'
+import { Plotter } from '../shared/plotter'
 
 // Using CommonJS modules
 import * as ed from './editor'
@@ -58,18 +61,37 @@ inputD3.addEventListener('click', changeInputD3);
 const inputD4 = document.querySelector<HTMLInputElement>('#input-d4');
 inputD4.addEventListener('click', changeInputD4);
 
+const canvas = document.querySelector<HTMLCanvasElement>('#canvas-plotter');
+
 let labelA0 = document.querySelector<HTMLElement>('#labelA0');
+
+const sampleSlider = document.querySelector<HTMLInputElement>('#sample-slider');
+sampleSlider.addEventListener('change', changePlotterSamples);
+
+let sampleLabel = document.querySelector<HTMLElement>('#sample-label');
 
 // Set up toolbar
 let runner: AVRRunner;
 let board = 'uno';
 let autoScroll = true;
 
+let nBuffer = new Array<number>(32);
+let nOffset = 0;
+
+let plotter = new Plotter(canvas);
+
+let aPoints = Array<Point>(512);
+let dOffset = new Uint16Array(8);
+
+let tabIndex = 0;
+let getData = false;
+
+let samplePlotter = 256;
+
 function executeProgram(hex: string) {
 
   runner = new AVRRunner(hex);
 
-  const cpuNanos = () => Math.round((runner.cpu.cycles / runner.frequency) * 1000000000);
   const cpuMillis = () => Math.round((runner.cpu.cycles / runner.frequency) * 1000);
 
   const cpuPerf = new CPUPerformance(runner.cpu, runner.frequency);
@@ -78,6 +100,15 @@ function executeProgram(hex: string) {
 
   let animation = true;
   let previousMillis = 0;
+
+  // Set sample
+  aPoints.length = samplePlotter;
+  aPoints.fill({ x: 0, y: 0 });
+
+  // Set offset
+  for (let i = 0; i <= dOffset.length - 1; i++) {
+    dOffset[i] = samplePlotter;
+  }
 
   statusLabel.textContent = 'Simulation time: ';
 
@@ -108,6 +139,28 @@ function executeProgram(hex: string) {
     // Checks auto scroll
     if (autoScroll) {
       runnerOutputText.scrollIntoView({ block: 'end', behavior: 'smooth' });
+    }
+
+    // Check carriage return, line break and tab
+    if ((value != 10) && (value != 13) && (value != 9)) {
+      nBuffer[nOffset++] = value;
+    }
+
+    // Checks tab
+    if (value == 9) {
+      getData = true;
+      tabIndex++;
+    }
+
+    // Checks line break
+    if (value == 13) {
+      getData = true;
+      tabIndex = 1;
+    }
+
+    if (getData) {
+      getData = false;
+      plotData(cpuMillis());
     }
 
     if (animation) {
@@ -163,8 +216,8 @@ async function compileAndRun() {
       ed.setProjectHex(ed.getProjectPath(), ed.getProjectName('.hex'));
 
       // Save hex
-      fs.writeFile(ed.getProjectHex(), result.hex, function (err) {
-          if (err) return console.log(err)
+      fs.writeFile(ed.getProjectHex(), result.hex, function(err) {
+        if (err) return console.log(err)
       });
 
       stopButton.removeAttribute('disabled');
@@ -229,7 +282,7 @@ function serialTransmit() {
   if (runner) {
     // Checks serial clear command
     if ((serialInput.value.toUpperCase() == "CLEAR") ||
-        (serialInput.value.toUpperCase() == "CLS")) {
+      (serialInput.value.toUpperCase() == "CLS")) {
       serialInput.value = "";
       clearOutput();
       return;
@@ -240,6 +293,39 @@ function serialTransmit() {
   } else {
     runnerOutputText.textContent += "Warning: AVR is not running!\n";
   }
+}
+
+function plotData(tsecs: number) {
+  let value = parseFloat(String.fromCharCode.apply(null, nBuffer));
+
+  if (value != NaN) {
+    // Shifts samples to the left
+    if (dOffset[tabIndex - 1] >= aPoints.length) {
+      dOffset[tabIndex - 1]--;
+      aPoints.shift();
+    }
+
+    // Set values
+    aPoints[dOffset[tabIndex - 1]] = {
+      x: tsecs,
+      y: value
+    };
+
+    let color: Color = Color.Green;
+
+    if (tabIndex <= Object.keys(Color).length) {
+      color = Object.values(Color)[tabIndex - 1];
+    }
+
+    // Set data
+    plotter.plot(aPoints, [], 'auto', color);
+
+    // Increment data offset
+    dOffset[tabIndex - 1]++;
+  }
+
+  nBuffer.fill(0);
+  nOffset = 0;
 }
 
 function serialAutoScroll() {
@@ -280,6 +366,20 @@ function changeAnalogA0() {
   // Write analog value
   if (runner)
     runner.setAnalogValue(parseInt(analogA0.value));
+}
+
+function changePlotterSamples() {
+  sampleLabel.textContent = "SAMPLES: " + sampleSlider.value;
+  samplePlotter = parseInt(sampleSlider.value);
+
+  // Resize arrays
+  aPoints.length = samplePlotter;
+  aPoints.fill({ x: 0, y: 0 });
+
+  // Set offset
+  for (let i = 0; i <= dOffset.length - 1; i++) {
+    dOffset[i] = samplePlotter;
+  }
 }
 
 // Port D starts at pin 0 to 7

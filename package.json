@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "electron": "^9.4.0",
+    "electron-rebuild": "^2.3.4",
     "typescript": "^4.1.3"
   }
 }

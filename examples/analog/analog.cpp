@@ -16,7 +16,7 @@ int main(void) {
     while (1) {
         // Read the value from the sensor:
         sensorValue = analogRead(sensorPin);
-        Serial.print("A0: ");
+        Serial.print("A0: \t");
         Serial.println(sensorValue);
 
         // The number of milliseconds between readings

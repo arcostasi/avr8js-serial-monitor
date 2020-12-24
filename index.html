@@ -127,23 +127,35 @@
           </div>
         </div>
         <div id="panel-right" class="child-2">
-          <div id="output-container" class="runner-output">
-            <pre id="runner-output-text"></pre>
+          <div id="monitor-tab" class="tab right noselect"></div>
+          <div id="monitor" class="tabcontent">
+            <div id="output-container" class="runner-output">
+              <pre id="runner-output-text"></pre>
+            </div>
+          </div>
+          <div id="plotter" class="tabcontent">
+            <div class="slider-container">
+              <input type="range" min="8" max="512" value="256" class="slider" id="sample-slider">
+              <span class="slider-label" id="sample-label">SAMPLES: 256</span>
+            </div>
+            <div id="plotter-container" class="runner-plotter">
+              <canvas width="500" height="320" id="canvas-plotter" class="plot"></canvas>
+            </div>
           </div>
         </div>
-          <div class="toolbar bottom noselect">
-            <div class="spacer"></div>
-            <span class="serial-label">Serial Input:</span>
-            <input id="file-input" type="file" name="name" class="hide" />
-            <input id="serial-input" type="text" class="serial-input">&nbsp;
-            <button id="serial-send" class="btn btn-dark"><i class="icon ci-download"></i> Send</button>
-            <button id="clear-button" class="btn btn-dark"><i class="icon ci-more"></i> Clear</button>
-            <div class="spacer-right"></div>
-            <label class="checkbox">
-              <input id="serial-scroll" type="checkbox" class="serial-checkbox" checked>
-              <span class="serial-label">Auto scroll</span>
-            </label>
-          </div>
+        <div class="toolbar bottom noselect">
+          <div class="spacer"></div>
+          <span class="serial-label">Serial Input:</span>
+          <input id="file-input" type="file" name="name" class="hide" />
+          <input id="serial-input" type="text" class="serial-input">&nbsp;
+          <button id="serial-send" class="btn btn-dark"><i class="icon ci-download"></i> Send</button>
+          <button id="clear-button" class="btn btn-dark"><i class="icon ci-more"></i> Clear</button>
+          <div class="spacer-right"></div>
+          <label class="checkbox">
+            <input id="serial-scroll" type="checkbox" class="serial-checkbox" checked>
+            <span class="serial-label">Auto scroll</span>
+          </label>
+        </div>
       </div>
     </div>
     <script>

@@ -35,9 +35,8 @@ int main(void) {
             digitalWrite(LED_L, inputState);
 
             // Write on serial output
-            Serial.write("LED L: ");
-            Serial.write(inputState ? "HIGH" : "LOW");
-            Serial.write('\n');
+            Serial.print("LED L: \t");
+            Serial.println(inputState ? -1 : 1);
         }
     }
 }

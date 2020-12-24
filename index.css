@@ -78,19 +78,16 @@ body {
   border: 1px solid #393939;
 }
 
-.elements::-webkit-scrollbar-track
-{
+.elements::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 1px #393939;
 }
 
-.elements::-webkit-scrollbar
-{
+.elements::-webkit-scrollbar {
   width: 15px;
   background-color: #1e1e1e;
 }
 
-.elements::-webkit-scrollbar-thumb
-{
+.elements::-webkit-scrollbar-thumb {
   background-color: #333;
 }
 
@@ -189,20 +186,17 @@ body {
   white-space: pre-wrap;
 }
 
-.runner-output::-webkit-scrollbar-track
-{
+.runner-output::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 1px #393939;
   background-color: #1e1e1e;
 }
 
-.runner-output::-webkit-scrollbar
-{
+.runner-output::-webkit-scrollbar {
   width: 15px;
   background-color: #1e1e1e;
 }
 
-.runner-output::-webkit-scrollbar-thumb
-{
+.runner-output::-webkit-scrollbar-thumb {
   background-color: #333;
 }
 
@@ -317,7 +311,9 @@ body {
 }
 
 /*------------------------------------------------------*/
+
 /* BUTTONS */
+
 /*------------------------------------------------------*/
 
 .buttons {
@@ -362,8 +358,7 @@ a#link {
   font-weight: bold;
 }
 
-.btn,
-input[type="submit"] {
+.btn, input[type="submit"] {
   cursor: pointer;
   border-radius: 0px;
   text-decoration: none;
@@ -412,8 +407,7 @@ input[type="submit"] {
   transition: all .4s ease-in-out;
 }
 
-.btn:hover,
-input[type="submit"]:hover {
+.btn:hover, input[type="submit"]:hover {
   -webkit-transition: all .4s ease-in-out;
   -moz-transition: all .4s ease-in-out;
   -ms-transition: all .4s ease-in-out;
@@ -434,16 +428,13 @@ input[type="submit"]:hover {
   color: #1f1f1f !important;
 }
 
-.btn-dark,
-input[type="submit"] {
+.btn-dark, input[type="submit"] {
   border: solid 2px #1f1f1f;
   background: transparent;
   color: #1f1f1f;
 }
 
-.btn-dark:hover,
-input[type="submit"]:hover,
-.btn-dark.active {
+.btn-dark:hover, input[type="submit"]:hover, .btn-dark.active {
   border: solid 2px #1f1f1f;
   background: #1f1f1f;
   color: #fff;
@@ -459,7 +450,7 @@ input[type="submit"]:hover,
 
 .noselect {
   user-select: none; /* Non-prefixed version,
-            currently supported by Chrome */
+              currently supported by Chrome */
 }
 
 .slider-container {
@@ -515,8 +506,7 @@ input[type="submit"]:hover,
   margin-left: 3px;
 }
 
-[class*=" ci-"],
-[class^=ci-] {
+[class*=" ci-"], [class^=ci-] {
   font-family: clockicons !important;
   speak: none;
   font-style: normal;
@@ -549,6 +539,37 @@ input[type="submit"]:hover,
 
 .checkbox > input:checked {
   background-color: #4CAF50;
+}
+
+/* Style tab links */
+.tablink {
+  background-color: #444;
+  color: white;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 6px 8px;
+  font-size: 14px;
+}
+
+.tablink:hover {
+  background-color: #777;
+}
+
+/* Style the tab content (and add height:100% for full page content) */
+.tabcontent {
+  color: white;
+  display: none;
+  height: 100%;
+}
+
+.right {
+  float: right;
+}
+
+.plot {
+  width: 100%;
 }
 
 .ci-logo:before {

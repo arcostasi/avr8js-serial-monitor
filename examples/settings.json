@@ -7,8 +7,8 @@
             "ext": "cpp"
         },
         {
-            "name": "serial-blank",
-            "path": "./examples/serial-blank/",
+            "name": "blank",
+            "path": "./examples/blank/",
             "board": "uno",
             "ext": "cpp",
             "files": [
@@ -16,30 +16,30 @@
             ]
         },
         {
-            "name": "serial-input",
-            "path": "./examples/serial-input/",
+            "name": "input",
+            "path": "./examples/input/",
             "board": "uno",
             "ext": "cpp"
         },
         {
-            "name": "serial-analog",
-            "path": "./examples/serial-analog/",
+            "name": "analog",
+            "path": "./examples/analog/",
             "board": "uno",
             "ext": "cpp"
         },
         {
-            "name": "serial-echo",
-            "path": "./examples/serial-echo/",
+            "name": "echo",
+            "path": "./examples/echo/",
             "board": "uno"
         },
         {
-            "name": "serial-print",
-            "path": "./examples/serial-print/",
+            "name": "plotter",
+            "path": "./examples/plotter/",
             "board": "uno"
         },
         {
-            "name": "serial-cmd",
-            "path": "./examples/serial-cmd/",
+            "name": "command",
+            "path": "./examples/command/",
             "board": "uno",
             "files": [
                 "CommandHandler.cpp",
