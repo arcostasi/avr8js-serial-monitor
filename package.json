@@ -12,7 +12,7 @@
     "dev": "tsc && electron ./dist/app/main.js"
   },
   "dependencies": {
-    "avr8js": "^0.14.5",
+    "avr8js": "^0.14.8",
     "custom-electron-titlebar": "^3.2.5",
     "lit-element": "^2.4.0",
     "monaco-editor": "^0.20.0",

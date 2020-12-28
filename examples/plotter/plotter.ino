@@ -15,7 +15,7 @@ void loop() {
     // float y2 = 2 * sin((i + 90) * M_PI / 180);
     // float y3 = 5 * sin((i + 180) * M_PI / 180);
 
-    Serial.print(y1);
+    Serial.println(y1);
 
     // A space ' ' or  tab '\t' character is
     // printed between the two values
@@ -28,9 +28,6 @@ void loop() {
 
     // The last value is followed by a carriage
     // return and a newline characters
-    // Serial.print(y3);
-    Serial.println();
-
-    delay(100);
+    // Serial.println(y3);
   }
 }
