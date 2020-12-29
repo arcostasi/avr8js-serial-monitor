@@ -152,9 +152,10 @@ export class AVRRunner {
 
     // Execution throttling
     if (speed > 1.02) {
-      this.workSyncCycles *= Math.floor(1 / speed);
+      this.workSyncCycles *= Math.ceil((1 / speed) * 100) / 100;
     } else {
-      this.workSyncCycles = 1;
+      // Fixed gain to balance cycles
+      this.workSyncCycles = 0.01;
     }
 
     this.cyclesToRun = this.cpu.cycles + this.workUnitCycles * this.workSyncCycles;
@@ -194,5 +195,10 @@ export class AVRRunner {
         return true; // Don't update
       }
     }
+  }
+
+  roundFloatNumber(num: number, dp: number) {
+    let numToFixedDp = Number(num).toFixed(dp);
+    return Number(numToFixedDp);
   }
 }
