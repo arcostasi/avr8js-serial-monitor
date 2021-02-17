@@ -1,6 +1,6 @@
 {
   "name": "avr8js-serial-monitor",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "author": "arcostasi",
   "license": "MIT",
   "description": "An AVR8 simulator with virtual serial monitor",
@@ -19,8 +19,8 @@
     "split.js": "^1.6.2"
   },
   "devDependencies": {
-    "electron": "^9.4.2",
-    "electron-rebuild": "^2.3.4",
-    "typescript": "^4.1.3"
+    "electron": "^9.4.3",
+    "electron-rebuild": "^2.3.5",
+    "typescript": "^4.1.5"
   }
 }
