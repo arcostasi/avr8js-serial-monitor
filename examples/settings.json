@@ -16,6 +16,11 @@
             ]
         },
         {
+            "name": "echo",
+            "path": "./examples/echo/",
+            "board": "uno"
+        },
+        {
             "name": "input",
             "path": "./examples/input/",
             "board": "uno",
@@ -28,9 +33,14 @@
             "ext": "cpp"
         },
         {
-            "name": "echo",
-            "path": "./examples/echo/",
-            "board": "uno"
+            "name": "stream",
+            "path": "./examples/stream/",
+            "board": "uno",
+            "ext": "cpp",
+            "files": [
+                "SerialStream.cpp",
+                "SerialStream.h"
+            ]
         },
         {
             "name": "plotter",
