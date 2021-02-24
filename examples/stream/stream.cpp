@@ -12,7 +12,8 @@ void loop() {
   int a = 0, b = 1;
   int limit = 0;
 
-  cout << "How many Fibonacci numbers do you want to generate?" << endl;
+  cout << "How many Fibonacci numbers ";
+  cout << "do you want to generate?" << endl;
   cin >> limit;
 
   cout << a << ',';

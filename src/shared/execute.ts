@@ -51,7 +51,6 @@ export class AVRRunner {
   readonly spi: AVRSPI;
   readonly twi: AVRTWI;
   readonly frequency = 16e6; // 16 MHZ
-  readonly workUnitCycles = 100000;
   readonly taskScheduler = new MicroTaskScheduler();
   readonly performance: CPUPerformance;
 
@@ -62,8 +61,10 @@ export class AVRRunner {
   private animation: boolean = true;
 
   // Cycles
-  private cyclesToRun: number = 0;
+  private cyclesToRun: number;
   private workSyncCycles: number = 1;
+  private workUnitCycles: number = 100000;
+  private syncCycles: number = 1;
 
   constructor(hex: string) {
     // Load program
@@ -90,12 +91,11 @@ export class AVRRunner {
 
     this.eeprom = new AVREEPROM(this.cpu, new EEPROMLocalStorageBackend());
     this.usart = new AVRUSART(this.cpu, usart0Config, this.frequency);
+    this.usart.onRxComplete = () => this.flushSerialBuffer();
     this.spi = new AVRSPI(this.cpu, spiConfig, this.frequency);
     this.twi = new AVRTWI(this.cpu, twiConfig, this.frequency);
 
-    // this.serialOnLineTransmit();
-    this.cpu.readHooks[usart0Config.UDR] = () => this.serialBuffer.shift() || 0;
-
+     // Analog read
     this.cpu.writeHooks[0x7a] = value => {
       if (value & (1 << 6)) {
         this.cpu.data[0x7a] = value & ~(1 << 6); // Clear bit - conversion done
@@ -122,6 +122,8 @@ export class AVRRunner {
       this.serialBuffer.push(c.charCodeAt(0));
     });
 
+    this.flushSerialBuffer();
+
     if (this.animation) {
       this.animation = false;
       setTimeout(() => {
@@ -131,19 +133,18 @@ export class AVRRunner {
     }
   }
 
-  serialOnLineTransmit() {
-    // Serial port to browser console
-    this.usart.onLineTransmit = (line) => {
-      console.log("[Serial] %c%s", "color: red", line);
-    };
+  private flushSerialBuffer() {
+    if (!this.usart.rxBusy && this.serialBuffer.length) {
+      this.usart.writeByte(this.serialBuffer.shift());
+    }
   }
 
-  rxCompleteInterrupt() {
-    const UCSRA = this.cpu.data[usart0Config.UCSRA];
+  setSyncCycles(factor: number) {
+    this.syncCycles = factor;
+  }
 
-    if ((UCSRA & 0x20) && (this.serialBuffer.length > 0)) {
-      avrInterrupt(this.cpu, usart0Config.rxCompleteInterrupt);
-    }
+  getSyncCycles() {
+    return this.syncCycles;
   }
 
   // CPU main loop
@@ -154,8 +155,8 @@ export class AVRRunner {
     if (speed > 1.02) {
       this.workSyncCycles *= Math.ceil((1 / speed) * 100) / 100;
     } else {
-      // Fixed gain to balance cycles
-      this.workSyncCycles = 0.01;
+      // Adjust gain to balance cycles
+      this.workSyncCycles = this.getSyncCycles();
     }
 
     this.cyclesToRun = this.cpu.cycles + this.workUnitCycles * this.workSyncCycles;
@@ -163,13 +164,7 @@ export class AVRRunner {
     while (this.cpu.cycles < this.cyclesToRun) {
       // Instruction timing is currently based on ATmega328p
       avrInstruction(this.cpu);
-
       this.cpu.tick();
-
-      // Serial complete interrupt
-      if (this.cpu.interruptsEnabled) {
-        this.rxCompleteInterrupt();
-      }
     }
 
     callback(this.cpu);

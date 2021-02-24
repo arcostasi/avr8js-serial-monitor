@@ -564,6 +564,10 @@ a#link {
   height: 100%;
 }
 
+.tabmargin {
+  margin-top: 25px;
+}
+
 .right {
   float: right;
 }

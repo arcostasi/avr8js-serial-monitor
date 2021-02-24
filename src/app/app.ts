@@ -70,6 +70,11 @@ sampleSlider.addEventListener('change', changePlotterSamples);
 
 let sampleLabel = document.querySelector<HTMLElement>('#sample-label');
 
+const syncCyclesSlider = document.querySelector<HTMLInputElement>('#sync-cycles');
+syncCyclesSlider.addEventListener('change', changeSyncCycles);
+
+let syncCyclesLabel = document.querySelector<HTMLElement>('#sync-cycles-label');
+
 // Set up toolbar
 let runner: AVRRunner;
 let board = 'uno';
@@ -87,10 +92,12 @@ let tabIndex = 0;
 let getData = false;
 
 let samplePlotter = 256;
+let syncCycles = 0.01;
 
 function executeProgram(hex: string) {
 
   runner = new AVRRunner(hex);
+  runner.setSyncCycles(syncCycles);
 
   const cpuMillis = () => Math.round((runner.cpu.cycles / runner.frequency) * 1000);
 
@@ -350,6 +357,24 @@ function changeFileInput() {
   } else {
     runnerOutputText.textContent += "File not supported, .hex files only!\n";
   }
+}
+
+function changeSyncCycles() {
+  syncCycles = roundFloatNumber(mapFloat(parseInt(syncCyclesSlider.value), 1, 100, 0.001, 0.1), 3);
+  syncCyclesLabel.textContent = "Cycles: " + syncCycles;
+
+  if (runner) {
+      runner.setSyncCycles(syncCycles);
+  }
+}
+
+function roundFloatNumber(num: number, dp: number) {
+  let numToFixedDp = Number(num).toFixed(dp);
+  return Number(numToFixedDp);
+}
+
+function mapFloat(x: number, inMin: number, inMax: number, outMin: number, outMax: number) {
+  return (x - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
 }
 
 function printChars(value: string) {

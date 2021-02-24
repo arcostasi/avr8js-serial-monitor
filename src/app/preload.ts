@@ -40,32 +40,43 @@ document.addEventListener('DOMContentLoaded', (event) => {
   // Load start
   ed.loader('./examples/blink/', 'blink', [], 'uno', 'cpp');
 
-  let tab1 = document.createElement("button");
+  let tabMonitor = document.createElement("button");
 
   // Assign different attributes to the element
-  tab1.setAttribute("name", "tab-1");
-  tab1.setAttribute("class", "tablink");
-  tab1.setAttribute("id", "defaultOpen");
-  tab1.innerText = "Monitor Serial";
-  tab1.onclick = function() {
+  tabMonitor.setAttribute("name", "tab-1");
+  tabMonitor.setAttribute("class", "tablink");
+  tabMonitor.setAttribute("id", "defaultOpen");
+  tabMonitor.innerText = "Monitor Serial";
+  tabMonitor.onclick = function() {
     openPage('monitor', this, '#555');
   }
 
-  document.getElementById("monitor-tab").appendChild(tab1);
+  document.getElementById("monitor-tab").appendChild(tabMonitor);
 
-  let tab2 = document.createElement("button");
+  let tabPlotter = document.createElement("button");
 
-  tab2.setAttribute("name", "tab-2");
-  tab2.setAttribute("class", "tablink");
-  tab2.innerText = "Plotter Serial";
-  tab2.onclick = function() {
+  tabPlotter.setAttribute("name", "tab-2");
+  tabPlotter.setAttribute("class", "tablink");
+  tabPlotter.innerText = "Plotter Serial";
+  tabPlotter.onclick = function() {
     openPage('plotter', this, '#555');
   }
 
-  document.getElementById("monitor-tab").appendChild(tab2);
+  document.getElementById("monitor-tab").appendChild(tabPlotter);
+
+  let tabSettings = document.createElement("button");
+
+  tabSettings.setAttribute("name", "tab-settings");
+  tabSettings.setAttribute("class", "tablink");
+  tabSettings.innerText = "Preferences";
+  tabSettings.onclick = function() {
+    openPage('settings', this, '#555');
+  }
+
+  document.getElementById("monitor-tab").appendChild(tabSettings);
 
   // Get the element with id="defaultOpen" and click on it
-  tab1.click();
+  tabMonitor.click();
 });
 
 function openPage(pageName: string, element: any, color: string) {

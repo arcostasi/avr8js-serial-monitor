@@ -133,13 +133,20 @@
               <pre id="runner-output-text"></pre>
             </div>
           </div>
-          <div id="plotter" class="tabcontent">
+          <div id="plotter" class="tabcontent tabmargin">
             <div class="slider-container">
               <input type="range" min="8" max="512" value="256" class="slider" id="sample-slider">
               <span class="slider-label" id="sample-label">SAMPLES: 256</span>
             </div>
             <div id="plotter-container" class="runner-plotter">
               <canvas width="500" height="320" id="canvas-plotter" class="plot"></canvas>
+            </div>
+          </div>
+          <div id="settings" class="tabcontent tabmargin">
+            <div class="slider-container">
+              Adjustment:
+              <input type="range" min="1" max="100" value="10" class="slider" id="sync-cycles">
+              <span class="slider-label" id="sync-cycles-label">Cycles: 0.01</span>
             </div>
           </div>
         </div>
