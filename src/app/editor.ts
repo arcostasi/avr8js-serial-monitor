@@ -3,7 +3,7 @@ declare const monaco: any;
 declare function editorLoaded(): any;
 
 // Using CommonJS modules
-let Split = require('split.js')
+const Split = require('split.js')
 
 let editor: any;
 let debug: boolean;
@@ -20,13 +20,25 @@ window.editorLoaded = () => {
     }
   });
   window.require(["vs/editor/editor.main"], () => {
+    monaco.languages.registerDocumentFormattingEditProvider('cpp', {
+      async provideDocumentFormattingEdits(model: any, options: any, token: any) {
+        return [
+          {
+            text: model.getValue(),
+            range: model.getFullModelRange()
+          },
+        ];
+      },
+    });
     editor = monaco.editor.create(document.getElementById('editor-container'), {
       model: null,
-      theme: "vs-dark",
+      language: 'cpp',
+      theme: 'vs-dark',
       fontFamily: 'Fira Code',
       fontSize: 18,
-      renderWhitespace: "all",
+      renderWhitespace: 'all',
       automaticLayout: true,
+      formatOnType: true,
       minimap: {
         enabled: false
       }
