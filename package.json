@@ -1,9 +1,9 @@
 {
-  "name": "avr8js-serial-monitor",
-  "version": "0.1.4",
+  "name": "avr8js-vsm",
+  "version": "0.1.5",
   "author": "arcostasi",
   "license": "MIT",
-  "description": "An AVR8 simulator with virtual serial monitor",
+  "deion": "An AVR8 simulator with virtual serial monitor",
   "main": "dist/app/main.js",
   "scripts": {
     "build": "tsc",
@@ -12,14 +12,14 @@
     "dev": "tsc && electron ./dist/app/main.js"
   },
   "dependencies": {
-    "avr8js": "^0.15.3",
+    "avr8js": "^0.18.6",
     "custom-electron-titlebar": "^3.2.7",
-    "lit-element": "^2.5.1",
-    "monaco-editor": "^0.25.2",
+    "lit-element": "^3.0.0",
+    "monaco-editor": "^0.30.0",
     "split.js": "^1.6.4"
   },
   "devDependencies": {
-    "electron": "^12.0.12",
-    "typescript": "^4.3.4"
+    "electron": "^12.2.2",
+    "typescript": "^4.4.4"
   }
 }
